@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1a2e">
+    <title>Portal Externo - Confirmación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight: #0f0f1e;
+            --deep-navy: #1a1a2e;
+            --royal-gold: #c9a054;
+            --rose-gold: #d4af79;
+            --soft-ivory: #faf8f3;
+            --blush-pink: #f4e8e1;
+            --burgundy: #6b2737;
+            --champagne: #f5e6d3;
+            --pure-white: #ffffff;
+            --text-dark: #2d2d2d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--midnight) 0%, var(--deep-navy) 50%, var(--burgundy) 100%);
+            color: var(--soft-ivory);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 20%, rgba(201, 160, 84, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(107, 39, 55, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Navbar Superior Mejorado */
+        .navbar {
+            background: linear-gradient(135deg, rgba(201, 160, 84, 0.98) 0%, rgba(107, 39, 55, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 70px;
+            gap: 20px;
+        }
+
+        /* Logo/Título */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .navbar-icon {
+            font-size: 28px;
+            color: var(--champagne);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .navbar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        /* Botones de Acción */
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn:hover,
+        .nav-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        .nav-btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Contenedor Principal */
+        .preview-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 70px;
+        }
+        
+        .preview-content {
+            flex: 1;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .iframe-container {
+            flex: 1;
+            position: relative;
+            margin: 15px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(201, 160, 84, 0.3);
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+        
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--royal-gold);
+            gap: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--midnight) 0%, var(--deep-navy) 100%);
+            z-index: 10;
+        }
+        
+        .loading i {
+            font-size: 50px;
+            animation: spin 1.5s linear infinite;
+            filter: drop-shadow(0 4px 15px rgba(201, 160, 84, 0.5));
+        }
+
+        .loading p {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            letter-spacing: 0.1em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--champagne);
+            gap: 20px;
+            text-align: center;
+            padding: 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--midnight) 0%, var(--deep-navy) 100%);
+            z-index: 10;
+        }
+        
+        .error-message i {
+            font-size: 60px;
+            color: var(--royal-gold);
+            filter: drop-shadow(0 4px 15px rgba(201, 160, 84, 0.4));
+        }
+
+        .error-message h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-top: 10px;
+        }
+
+        .error-message p {
+            font-size: 16px;
+            opacity: 0.9;
+            max-width: 500px;
+        }
+
+        .error-message button {
+            margin-top: 20px;
+            background: linear-gradient(135deg, var(--royal-gold) 0%, var(--burgundy) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            font-size: 16px;
+            padding: 15px 35px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            background: linear-gradient(135deg, var(--royal-gold) 0%, var(--burgundy) 100%);
+            box-shadow: 0 10px 30px rgba(201, 160, 84, 0.4);
+            transform: translateX(150%);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 350px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            box-shadow: 0 10px 30px rgba(211, 47, 47, 0.4);
+        }
+
+        .notification i {
+            font-size: 20px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            flex-shrink: 0;
+        }
+
+        .notification span {
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+        }
+
+        /* Pull to refresh styles */
+        .pull-to-refresh {
+            position: absolute;
+            top: -80px;
+            left: 0;
+            right: 0;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--royal-gold);
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            z-index: 50;
+        }
+
+        .pull-to-refresh i {
+            font-size: 24px;
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .pull-to-refresh.pulling i {
+            transform: rotate(180deg);
+        }
+
+        .pull-to-refresh.refreshing i {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Decorative elements */
+        .decorative-corner {
+            position: fixed;
+            font-family: 'Great Vibes', cursive;
+            font-size: 120px;
+            opacity: 0.03;
+            color: var(--royal-gold);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .decorative-corner.top-left {
+            top: -20px;
+            left: -20px;
+        }
+
+        .decorative-corner.bottom-right {
+            bottom: -20px;
+            right: -20px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-content {
+                min-height: 65px;
+                padding: 10px 0;
+            }
+
+            .navbar-container {
+                padding: 0 15px;
+            }
+
+            .navbar-title {
+                font-size: 16px;
+            }
+
+            .navbar-icon {
+                font-size: 24px;
+            }
+
+            .navbar-actions {
+                gap: 8px;
+            }
+
+            .nav-btn {
+                padding: 10px 18px;
+                font-size: 13px;
+                gap: 8px;
+            }
+
+            .nav-btn i {
+                font-size: 14px;
+            }
+
+            .iframe-container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .notification {
+                top: 80px;
+                right: 15px;
+                left: 15px;
+                max-width: none;
+                padding: 14px 18px;
+            }
+
+            .notification span {
+                font-size: 13px;
+            }
+
+            .preview-container {
+                margin-top: 65px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .navbar-content {
+                min-height: 60px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .navbar-brand {
+                order: 1;
+                flex: 1;
+            }
+
+            .navbar-actions {
+                order: 2;
+                width: 100%;
+                justify-content: center;
+                padding-bottom: 10px;
+            }
+
+            .navbar-title {
+                font-size: 15px;
+            }
+
+            .nav-btn span {
+                display: none;
+            }
+
+            .nav-btn {
+                width: 48px;
+                height: 48px;
+                padding: 0;
+                border-radius: 50%;
+                flex: 0 0 48px;
+            }
+
+            .nav-btn i {
+                margin: 0;
+                font-size: 18px;
+            }
+
+            .iframe-container {
+                margin: 8px;
+                border-radius: 12px;
+            }
+
+            .loading i,
+            .error-message i {
+                font-size: 40px;
+            }
+
+            .loading p {
+                font-size: 16px;
+            }
+
+            .error-message h3 {
+                font-size: 22px;
+            }
+
+            .error-message p {
+                font-size: 14px;
+            }
+
+            .preview-container {
+                margin-top: 110px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .navbar-container {
+                padding: 0 10px;
+            }
+
+            .navbar-icon {
+                font-size: 20px;
+            }
+
+            .navbar-title {
+                font-size: 14px;
+            }
+
+            .nav-btn {
+                width: 44px;
+                height: 44px;
+                flex: 0 0 44px;
+            }
+
+            .nav-btn i {
+                font-size: 16px;
+            }
+        }
+
+        /* Prevenir gestos de zoom */
+        body {
+            touch-action: pan-x pan-y;
+        }
+    </style>
+</head>
+<body>
+    <div class="decorative-corner top-left">♥</div>
+    <div class="decorative-corner bottom-right">♥</div>
+
+    <!-- Navbar Superior Mejorado -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-content">
+                <a href="#" class="navbar-brand">
+                    <i class="fas fa-heart navbar-icon"></i>
+                    <span class="navbar-title">Confirmación de Asistencia</span>
+                </a>
+                
+                <div class="navbar-actions">
+                    <button class="nav-btn" id="backBtn" title="Retroceder">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Atrás</span>
+                    </button>
+                    <button class="nav-btn" id="refreshBtn" title="Actualizar">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Actualizar</span>
+                    </button>
+                    <button class="nav-btn nav-btn-primary" id="fullscreenBtn" title="Pantalla Completa">
+                        <i class="fas fa-expand"></i>
+                        <span>Pantalla Completa</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="preview-container">
+        <div class="pull-to-refresh" id="pullToRefresh">
+            <i class="fas fa-arrow-down"></i>
+            <span id="pullText">Desliza para actualizar</span>
+        </div>
+        <div class="preview-content" id="previewContent">
+            <div class="iframe-container">
+                <div class="loading" id="loadingIndicator">
+                    <i class="fas fa-spinner"></i>
+                    <p>Cargando formulario...</p>
+                </div>
+                <div class="error-message" id="errorMessage" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>No se pudo cargar el formulario</h3>
+                    <p>Verifica tu conexión a internet e intenta nuevamente.</p>
+                    <button onclick="location.reload()" class="nav-btn">
+                        <i class="fas fa-redo"></i>
+                        <span>Reintentar</span>
+                    </button>
+                </div>
+                <iframe id="previewFrame" src="about:blank" style="display: none;"></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Formulario cargado correctamente</span>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM
+            const previewFrame = document.getElementById('previewFrame');
+            const backBtn = document.getElementById('backBtn');
+            const refreshBtn = document.getElementById('refreshBtn');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorMessage = document.getElementById('errorMessage');
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            const pullToRefresh = document.getElementById('pullToRefresh');
+            const pullText = document.getElementById('pullText');
+            const previewContent = document.getElementById('previewContent');
+            
+            // URL del formulario de Google - Cambia esta variable para otro formulario
+            const TARGET_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe68Pexcmav_kXU-TJ3wZpHvM1mgIJRgPJodJBlm5fIxOQW_Q/viewform?usp=dialog";
+            
+            // Pull to refresh variables
+            let startY = 0;
+            let currentY = 0;
+            let pulling = false;
+            let refreshing = false;
+            
+            // Vibración
+            function vibrate(duration = 15) {
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(duration);
+                }
+            }
+            
+            // Notificaciones
+            function showNotification(message, isError = false) {
+                notificationText.textContent = message;
+                notification.className = 'notification' + (isError ? ' error' : '');
+                
+                const icon = notification.querySelector('i');
+                icon.className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3500);
+            }
+            
+            // Cargar URL
+            function loadUrl(url) {
+                loadingIndicator.style.display = 'flex';
+                errorMessage.style.display = 'none';
+                previewFrame.style.display = 'none';
+                
+                previewFrame.src = url;
+            }
+            
+            // Pull to refresh functionality
+            previewContent.addEventListener('touchstart', function(e) {
+                if (previewContent.scrollTop === 0 && !refreshing) {
+                    startY = e.touches[0].pageY;
+                    pulling = true;
+                }
+            }, { passive: true });
+            
+            previewContent.addEventListener('touchmove', function(e) {
+                if (!pulling || refreshing) return;
+                
+                currentY = e.touches[0].pageY;
+                const diff = currentY - startY;
+                
+                if (diff > 0 && diff < 150) {
+                    pullToRefresh.style.transform = `translateY(${diff}px)`;
+                    
+                    if (diff > 80) {
+                        pullText.textContent = 'Suelta para actualizar';
+                        pullToRefresh.classList.add('pulling');
+                    } else {
+                        pullText.textContent = 'Desliza para actualizar';
+                        pullToRefresh.classList.remove('pulling');
+                    }
+                }
+            }, { passive: true });
+            
+            previewContent.addEventListener('touchend', function(e) {
+                if (!pulling || refreshing) return;
+                
+                const diff = currentY - startY;
+                
+                if (diff > 80) {
+                    refreshing = true;
+                    pullToRefresh.classList.add('refreshing');
+                    pullToRefresh.classList.remove('pulling');
+                    pullText.textContent = 'Actualizando...';
+                    vibrate(20);
+                    
+                    // Recargar iframe
+                    loadUrl(TARGET_URL);
+                    
+                    setTimeout(() => {
+                        refreshing = false;
+                        pullToRefresh.classList.remove('refreshing');
+                        pullToRefresh.style.transform = 'translateY(0)';
+                        pullText.textContent = 'Desliza para actualizar';
+                    }, 1500);
+                } else {
+                    pullToRefresh.style.transform = 'translateY(0)';
+                    pullToRefresh.classList.remove('pulling');
+                }
+                
+                pulling = false;
+                startY = 0;
+                currentY = 0;
+            }, { passive: true });
+            
+            // Iframe load
+            previewFrame.addEventListener('load', function() {
+                if (previewFrame.src !== 'about:blank') {
+                    loadingIndicator.style.display = 'none';
+                    previewFrame.style.display = 'block';
+                    showNotification('Formulario cargado correctamente');
+                }
+            });
+            
+            // Iframe error
+            previewFrame.addEventListener('error', function() {
+                loadingIndicator.style.display = 'none';
+                errorMessage.style.display = 'flex';
+                showNotification('Error al cargar el formulario', true);
+            });
+            
+            // Botón Atrás
+            backBtn.addEventListener('click', function() {
+                vibrate(15);
+                if (previewFrame.contentWindow && previewFrame.contentWindow.history.length > 1) {
+                    previewFrame.contentWindow.history.back();
+                    showNotification('Retrocediendo...');
+                } else {
+                    showNotification('No hay páginas anteriores');
+                }
+            });
+            
+            // Botón actualizar
+            refreshBtn.addEventListener('click', function() {
+                vibrate(15);
+                if (previewFrame.src && previewFrame.src !== 'about:blank') {
+                    loadUrl(previewFrame.src);
+                    showNotification('Actualizando formulario...');
+                }
+            });
+            
+            // Pantalla completa
+            function toggleFullscreen() {
+                vibrate(15);
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        showNotification('Error al activar pantalla completa', true);
+                    });
+                    fullscreenBtn.querySelector('i').className = 'fas fa-compress';
+                    const span = fullscreenBtn.querySelector('span');
+                    if (span) span.textContent = 'Salir';
+                } else {
+                    document.exitFullscreen();
+                    fullscreenBtn.querySelector('i').className = 'fas fa-expand';
+                    const span = fullscreenBtn.querySelector('span');
+                    if (span) span.textContent = 'Pantalla Completa';
+                }
+            }
+            
+            fullscreenBtn.addEventListener('click', toggleFullscreen);
+            
+            // Auto fullscreen
+            setTimeout(() => {
+                if (!document.fullscreenElement) {
+                    toggleFullscreen();
+                }
+            }, 1000);
+            
+            // ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.fullscreenElement) {
+                    fullscreenBtn.querySelector('i').className = 'fas fa-expand';
+                    const span = fullscreenBtn.querySelector('span');
+                    if (span) span.textContent = 'Pantalla Completa';
+                }
+            });
+            
+            // Prevenir gestos zoom
+            document.addEventListener('gesturestart', e => e.preventDefault());
+            document.addEventListener('gesturechange', e => e.preventDefault());
+            document.addEventListener('gestureend', e => e.preventDefault());
+
+            // Prevenir doble tap zoom
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(event) {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+            
+            // Cargar URL inicial
+            loadUrl(TARGET_URL);
+
+            // Console
+            console.log('%c💍 Portal de Confirmación 💍', 'font-size: 24px; color: #c9a054; font-weight: bold;');
+            console.log('%c✨ Andreina & Arnel - Boda Elegante', 'font-size: 18px; color: #1a1a2e; font-weight: 600;');
+        });
+    </script>
+</body>
+</html>

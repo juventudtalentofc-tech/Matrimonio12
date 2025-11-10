@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1a2e">
+    <title>Andreina & Arnel - Nuestra Boda</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight: #0f0f1e;
+            --deep-navy: #1a1a2e;
+            --royal-gold: #c9a054;
+            --rose-gold: #d4af79;
+            --soft-ivory: #faf8f3;
+            --blush-pink: #f4e8e1;
+            --burgundy: #6b2737;
+            --champagne: #f5e6d3;
+            --pure-white: #ffffff;
+            --text-dark: #2d2d2d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--soft-ivory);
+            color: var(--text-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* Anuncio Modal */
+        .announcement-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            backdrop-filter: blur(20px);
+            z-index: 100000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .announcement-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .announcement-content {
+            position: relative;
+            max-width: 95%;
+            max-height: 95vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: zoomIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .announcement-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--royal-gold) 0%, var(--burgundy) 100%);
+            border: 3px solid var(--pure-white);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100001;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .announcement-close:hover {
+            transform: rotate(90deg) scale(1.15);
+            box-shadow: 0 12px 35px rgba(201, 160, 84, 0.6);
+        }
+
+        .announcement-close:active {
+            transform: rotate(90deg) scale(0.95);
+        }
+
+        .announcement-close i {
+            color: var(--pure-white);
+            font-size: 24px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .announcement-image {
+            max-width: 100%;
+            max-height: 93vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.342);
+            border: 3px solid rgba(245, 216, 162, 0.055);
+        }
+
+        /* Responsive Anuncio */
+        @media (max-width: 768px) {
+            .announcement-content {
+                max-width: 90%;
+            }
+
+            .announcement-close {
+                top: -10px;
+                right: -10px;
+                width: 45px;
+                height: 45px;
+            }
+
+            .announcement-close i {
+                font-size: 20px;
+            }
+
+            .announcement-image {
+                border-radius: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .announcement-overlay {
+                padding: 15px;
+            }
+
+            .announcement-close {
+                top: 5px;
+                right: 5px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .announcement-close i {
+                font-size: 18px;
+            }
+
+            .announcement-image {
+                border-radius: 8px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 600px) {
+            .announcement-image {
+                max-height: 85vh;
+            }
+        }
+
+        /* Preloader Elegante */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--midnight) 0%, var(--deep-navy) 50%, var(--burgundy) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-content {
+            text-align: center;
+            animation: floatIn 1.5s ease-out;
+        }
+
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .preloader-monogram {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(5rem, 20vw, 9rem);
+            color: var(--royal-gold);
+            margin-bottom: 30px;
+            text-shadow: 0 0 40px rgba(201, 160, 84, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 40px rgba(201, 160, 84, 0.5); }
+            50% { text-shadow: 0 0 60px rgba(201, 160, 84, 0.8); }
+        }
+
+        .preloader-text {
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            color: var(--champagne);
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .preloader-hearts {
+            margin-top: 40px;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            color: var(--royal-gold);
+        }
+
+        .preloader-hearts i {
+            display: inline-block;
+            animation: heartFloat 2s ease-in-out infinite;
+            margin: 0 8px;
+        }
+
+        .preloader-hearts i:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .preloader-hearts i:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes heartFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.1); }
+        }
+
+        /* Hero Premium */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--midnight) 0%, var(--deep-navy) 40%, var(--burgundy) 100%);
+            overflow: hidden;
+            padding: 60px 20px;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 20%, rgba(201, 160, 84, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(107, 39, 55, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(212, 175, 121, 0.08) 0%, transparent 60%);
+            animation: breathe 20s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .hero-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--royal-gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle 8s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: translateY(100vh) scale(0); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1); }
+        }
+
+        .hero-ornament {
+            position: absolute;
+            font-size: clamp(10rem, 35vw, 18rem);
+            opacity: 0.04;
+            color: var(--royal-gold);
+            animation: rotate 60s linear infinite;
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .hero-ornament.top-left {
+            top: -80px;
+            left: -80px;
+        }
+
+        .hero-ornament.bottom-right {
+            bottom: -80px;
+            right: -80px;
+            animation-direction: reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1000px;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 12px 35px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(201, 160, 84, 0.3);
+            border-radius: 50px;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .hero-badge-text {
+            font-size: clamp(0.75rem, 2.8vw, 0.95rem);
+            color: var(--champagne);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .hero-ornamental-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            margin: 40px 0;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+        }
+
+        .hero-ornamental-line::before,
+        .hero-ornamental-line::after {
+            content: "";
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--royal-gold), transparent);
+        }
+
+        .hero-ornamental-line i {
+            color: var(--royal-gold);
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+        }
+
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(4rem, 15vw, 8rem);
+            font-weight: 400;
+            color: var(--soft-ivory);
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+            margin: 40px 0;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.7s forwards;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .ampersand {
+            display: block;
+            font-size: clamp(3rem, 10vw, 6rem);
+            color: var(--royal-gold);
+            margin: 20px 0;
+            text-shadow: 0 0 30px rgba(201, 160, 84, 0.5);
+        }
+
+        .hero-date-container {
+            margin-top: 50px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.9s forwards;
+        }
+
+        .hero-date {
+            display: inline-block;
+            padding: 35px 55px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(201, 160, 84, 0.3);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-date::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(201, 160, 84, 0.1), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .date-day {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 12vw, 6rem);
+            font-weight: 700;
+            color: var(--royal-gold);
+            line-height: 1;
+            display: block;
+            text-shadow: 0 2px 15px rgba(201, 160, 84, 0.4);
+        }
+
+        .date-details {
+            font-size: clamp(1.1rem, 4vw, 1.6rem);
+            color: var(--champagne);
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            margin-top: 10px;
+        }
+
+        .date-separator {
+            color: var(--royal-gold);
+            margin: 0 12px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.2s forwards, float 3s ease-in-out 1.5s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-15px); }
+        }
+
+        .scroll-text {
+            color: var(--champagne);
+            font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .scroll-icon {
+            width: 30px;
+            height: 50px;
+            border: 2px solid var(--royal-gold);
+            border-radius: 25px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .scroll-icon::before {
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--royal-gold);
+            border-radius: 2px;
+            animation: scrollDown 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollDown {
+            0% { top: 8px; opacity: 1; }
+            100% { top: 30px; opacity: 0; }
+        }
+
+        /* Sección Mejorada */
+        .section {
+            padding: clamp(80px, 15vw, 140px) clamp(25px, 6vw, 80px);
+            position: relative;
+        }
+
+        .section-light {
+            background: linear-gradient(180deg, var(--soft-ivory) 0%, var(--blush-pink) 50%, var(--soft-ivory) 100%);
+        }
+
+        .section-dark {
+            background: linear-gradient(135deg, var(--deep-navy) 0%, var(--midnight) 100%);
+            color: var(--soft-ivory);
+        }
+
+        .section-accent {
+            background: linear-gradient(135deg, var(--champagne) 0%, var(--blush-pink) 100%);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: clamp(50px, 10vw, 100px);
+        }
+
+        .section-label {
+            display: inline-block;
+            padding: 10px 30px;
+            background: rgba(201, 160, 84, 0.1);
+            border: 1px solid var(--royal-gold);
+            border-radius: 50px;
+            font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--royal-gold);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 9vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--text-dark) 0%, var(--burgundy) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-dark .section-title {
+            background: linear-gradient(135deg, var(--soft-ivory) 0%, var(--royal-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 35px 0;
+        }
+
+        .section-ornament::before,
+        .section-ornament::after {
+            content: "";
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--royal-gold), transparent);
+        }
+
+        .section-ornament i {
+            color: var(--royal-gold);
+            font-size: clamp(1rem, 3.5vw, 1.5rem);
+        }
+
+        /* Contenido de Bienvenida Mejorado */
+        .welcome-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .welcome-text {
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            line-height: 2.2;
+            margin-bottom: 35px;
+            font-weight: 300;
+            color: var(--text-dark);
+        }
+
+        .welcome-signature {
+            margin-top: 70px;
+        }
+
+        .signature-line {
+            width: 150px;
+            height: 1px;
+            background: var(--royal-gold);
+            margin: 0 auto 25px;
+        }
+
+        .signature-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: var(--royal-gold);
+            text-shadow: 0 2px 10px rgba(201, 160, 84, 0.3);
+        }
+
+        /* Tarjetas de Detalles Premium */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 70px;
+        }
+
+        .detail-card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(201, 160, 84, 0.25);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detail-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(201, 160, 84, 0.15) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            border-color: var(--royal-gold);
+        }
+
+        .detail-card:hover::before {
+            opacity: 1;
+        }
+
+        .detail-icon-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, var(--royal-gold) 0%, var(--rose-gold) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(201, 160, 84, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .detail-card:hover .detail-icon-wrapper {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 15px 40px rgba(201, 160, 84, 0.5);
+        }
+
+        .detail-icon {
+            font-size: clamp(2.5rem, 8vw, 3.5rem);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .detail-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--soft-ivory);
+        }
+
+        .detail-description {
+            font-size: clamp(1rem, 3.8vw, 1.15rem);
+            line-height: 1.9;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .detail-time {
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
+            color: var(--royal-gold);
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Sección RSVP Mejorada */
+        .rsvp-wrapper {
+            max-width: 750px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .rsvp-description {
+            font-size: clamp(1.15rem, 4.2vw, 1.35rem);
+            line-height: 2;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .rsvp-deadline-box {
+            display: inline-block;
+            padding: 30px 50px;
+            background: rgba(26, 26, 46, 0.08);
+            border: 2px solid var(--text-dark);
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .rsvp-deadline-label {
+            font-size: clamp(0.85rem, 3vw, 1rem);
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .rsvp-deadline-date {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 5.5vw, 2rem);
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .rsvp-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(135deg, var(--royal-gold) 0%, var(--burgundy) 100%);
+            color: var(--pure-white);
+            padding: 25px 60px;
+            font-size: clamp(1.15rem, 4.5vw, 1.4rem);
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 60px;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 20px 45px rgba(201, 160, 84, 0.4);
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .rsvp-button::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            transform: translate(-50%, -50%);
+            transition: width 0.7s ease, height 0.7s ease;
+        }
+
+        .rsvp-button:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 30px 60px rgba(201, 160, 84, 0.6);
+        }
+
+        .rsvp-button:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .rsvp-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .rsvp-button i {
+            position: relative;
+            z-index: 1;
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
+            transition: transform 0.3s ease;
+        }
+
+        .rsvp-button:hover i {
+            transform: translateX(8px);
+        }
+
+        /* Sección de Regalos Mejorada */
+        .gifts-intro {
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto 70px;
+            font-size: clamp(1.05rem, 4vw, 1.25rem);
+            line-height: 2;
+        }
+
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 45px;
+            margin-top: 60px;
+        }
+
+        .gift-card {
+            background: var(--pure-white);
+            border-radius: 20px;
+            padding: 55px 45px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gift-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--royal-gold), var(--burgundy), var(--royal-gold));
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .gift-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.15);
+        }
+
+        .gift-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .gift-icon-box {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 35px;
+            background: linear-gradient(135deg, var(--blush-pink) 0%, var(--champagne) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+        }
+
+        .gift-card:hover .gift-icon-box {
+            transform: scale(1.15) rotate(-10deg);
+        }
+
+        .gift-icon-box i {
+            font-size: clamp(3.5rem, 11vw, 4.5rem);
+        }
+
+        .gift-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.7rem, 6vw, 2.4rem);
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+        }
+
+        .gift-description {
+            font-size: clamp(1rem, 3.8vw, 1.15rem);
+            line-height: 2;
+            color: var(--text-dark);
+            opacity: 0.85;
+        }
+
+        /* Mensaje Final Elegante */
+        .final-message {
+            max-width: 850px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .final-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 700;
+            color: var(--soft-ivory);
+            margin-bottom: 40px;
+            line-height: 1.3;
+        }
+
+        .final-text {
+            font-size: clamp(1.1rem, 4.2vw, 1.35rem);
+            line-height: 2.2;
+            margin-bottom: 35px;
+            opacity: 0.95;
+        }
+
+        /* Footer Premium */
+        footer {
+            background: linear-gradient(135deg, var(--midnight) 0%, var(--deep-navy) 100%);
+            color: var(--soft-ivory);
+            text-align: center;
+            padding: clamp(70px, 12vw, 120px) 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(201, 160, 84, 0.08) 0%, transparent 70%);
+        }
+
+        .footer-content {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-monogram {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 10vw, 5rem);
+            color: var(--royal-gold);
+            margin-bottom: 30px;
+            text-shadow: 0 0 30px rgba(201, 160, 84, 0.4);
+        }
+
+        .footer-names {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 7vw, 3rem);
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .footer-heart {
+            color: var(--royal-gold);
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
+            display: inline-block;
+            animation: heartPulse 2s ease-in-out infinite;
+            margin: 0 15px;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1); }
+        }
+
+        .footer-date {
+            font-size: clamp(1.05rem, 4vw, 1.3rem);
+            opacity: 0.85;
+            margin-top: 20px;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-divider {
+            width: 100px;
+            height: 1px;
+            background: var(--royal-gold);
+            margin: 40px auto;
+        }
+
+        .footer-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.1rem, 4.2vw, 1.4rem);
+            font-style: italic;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        /* Animaciones Scroll */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .details-grid,
+            .gifts-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .hero-date {
+                padding: 30px 40px;
+            }
+
+            .section {
+                padding: clamp(60px, 12vw, 100px) clamp(20px, 5vw, 50px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 40px 15px;
+            }
+
+            .rsvp-button {
+                padding: 20px 45px;
+            }
+
+            .detail-card,
+            .gift-card {
+                padding: 40px 30px;
+            }
+        }
+
+        /* Prevenir zoom */
+        input, select, textarea {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Anuncio Modal -->
+    <div class="announcement-overlay" id="announcementOverlay">
+        <div class="announcement-content">
+            <button class="announcement-close" id="closeAnnouncement" aria-label="Cerrar anuncio">
+                <i class="fas fa-times"></i>
+            </button>
+            <!-- COLOCA AQUÍ LA URL DE TU IMAGEN -->
+            <img src="invitacion vertical de boda floral cafe.png" alt="Anuncio Barranquilla" class="announcement-image" id="announcementImage">
+        </div>
+    </div>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-monogram">A&A</div>
+            <div class="preloader-text">Cargando Invitación</div>
+            <div class="preloader-hearts">
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-17.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-ornament top-left">♥</div>
+        <div class="hero-ornament bottom-right">♥</div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <div class="hero-badge-text">Celebra Con Nosotros</div>
+            </div>
+
+            <div class="hero-ornamental-line">
+                <i class="fas fa-heart"></i>
+            </div>
+            
+            <h1 class="couple-names">
+                Andreina
+                <span class="ampersand">&</span>
+                Arnel
+            </h1>
+
+            <div class="hero-ornamental-line">
+                <i class="fas fa-heart"></i>
+            </div>
+            
+            <div class="hero-date-container">
+                <div class="hero-date">
+                    <span class="date-day">13</span>
+                    <div class="date-details">
+                        Diciembre <span class="date-separator">•</span> 2024 <span class="date-separator">•</span> 7:00 PM
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <div class="scroll-text">Desliza</div>
+            <div class="scroll-icon"></div>
+        </div>
+    </section>
+
+    <!-- Bienvenida -->
+    <section class="section section-light">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <div class="section-label">Nuestro Gran Día</div>
+                <h2 class="section-title">Un Momento Para<br>Atesorar Por Siempre</h2>
+                <div class="section-ornament">
+                    <i class="fas fa-gem"></i>
+                </div>
+            </div>
+            
+            <div class="welcome-content fade-in-up">
+                <p class="welcome-text">
+                    Con el corazón rebosante de amor y alegría, deseamos invitarte a ser testigo del momento más significativo de nuestras vidas.
+                </p>
+                <p class="welcome-text">
+                    Cada paso que hemos dado nos ha llevado a este instante mágico, y queremos celebrarlo rodeados de las personas que han iluminado nuestro camino con su amor y amistad.
+                </p>
+                <p class="welcome-text">
+                    Tu presencia hará que este día sea verdaderamente inolvidable mientras unimos nuestras vidas en matrimonio.
+                </p>
+                
+                <div class="welcome-signature">
+                    <div class="signature-line"></div>
+                    <div class="signature-names">Con todo nuestro amor,<br>Andreina & Arnel</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detalles -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <div class="section-label">Información del Evento</div>
+                <h2 class="section-title">Todo Lo Que<br>Necesitas Saber</h2>
+                <div class="section-ornament">
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            
+            <div class="details-grid">
+                <div class="detail-card fade-in-up">
+                    <div class="detail-icon-wrapper">
+                        <div class="detail-icon">⛪</div>
+                    </div>
+                    <h3 class="detail-title">Ceremonia Religiosa</h3>
+                    <p class="detail-description">
+                        Únete a nosotros en una ceremonia sagrada donde sellaremos nuestro amor ante Dios y nuestros seres más queridos
+                    </p>
+                    <div class="detail-time">7:00 PM</div>
+                </div>
+                
+                <div class="detail-card fade-in-up" style="animation-delay: 0.2s">
+                    <div class="detail-icon-wrapper">
+                        <div class="detail-icon">🥂</div>
+                    </div>
+                    <h3 class="detail-title">Recepción Nupcial</h3>
+                    <p class="detail-description">
+                        Continuemos la celebración con una velada mágica llena de música, baile y momentos inolvidables
+                    </p>
+                    <div class="detail-time">9:00 PM</div>
+                </div>
+                
+                <div class="detail-card fade-in-up" style="animation-delay: 0.4s">
+                    <div class="detail-icon-wrapper">
+                        <div class="detail-icon">💎</div>
+                    </div>
+                    <h3 class="detail-title">Código de Vestimenta</h3>
+                    <p class="detail-description">
+                        Formal Elegante - Ven luciendo tu mejor atuendo para hacer de esta noche una ocasión verdaderamente especial
+                    </p>
+                    <div class="detail-time">Etiqueta</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="section section-accent">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <div class="section-label" style="color: var(--text-dark); border-color: var(--text-dark);">Tu Respuesta Es Importante</div>
+                <h2 class="section-title">Confírmanos<br>Tu Asistencia</h2>
+                <div class="section-ornament">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <div class="rsvp-wrapper fade-in-up">
+                <p class="rsvp-description">
+                    Tu compañía significa el mundo para nosotros. Por favor, confírmanos si podrás acompañarnos en este día tan especial para que podamos preparar cada detalle con amor.
+                </p>
+                
+                <div class="rsvp-deadline-box">
+                    <div class="rsvp-deadline-label">Fecha Límite</div>
+                    <div class="rsvp-deadline-date">5 de Diciembre, 2024</div>
+                </div>
+                
+                <a href="portal_web.html" class="rsvp-button">
+                    <span>Confirmar Mi Asistencia</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                
+                <p class="rsvp-description" style="margin-top: 45px; font-size: clamp(1rem, 3.8vw, 1.2rem); opacity: 0.85;">
+                    Tu confirmación nos permitirá organizar la celebración perfecta para compartir contigo
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Regalos -->
+    <section class="section section-light">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <div class="section-label">Con Cariño</div>
+                <h2 class="section-title">Mesa de Regalos</h2>
+                <div class="section-ornament">
+                    <i class="fas fa-gift"></i>
+                </div>
+            </div>
+            
+            <div class="gifts-intro fade-in-up">
+                <p>
+                    Tu presencia es el regalo más valioso que podríamos recibir. Sin embargo, si deseas ayudarnos a comenzar nuestra nueva vida juntos, hemos preparado estas opciones con mucho amor.
+                </p>
+            </div>
+            
+            <div class="gifts-grid">
+                <div class="gift-card fade-in-up">
+                    <div class="gift-icon-box">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="gift-title">Nuestro Hogar</h3>
+                    <p class="gift-description">
+                        Artículos cuidadosamente seleccionados para construir y decorar el hogar de nuestros sueños donde comenzaremos nuestra vida juntos
+                    </p>
+                </div>
+                
+                <div class="gift-card fade-in-up" style="animation-delay: 0.2s">
+                    <div class="gift-icon-box">
+                        <i class="fas fa-plane-departure"></i>
+                    </div>
+                    <h3 class="gift-title">Luna de Miel</h3>
+                    <p class="gift-description">
+                        Ayúdanos a hacer realidad el viaje de nuestros sueños y crear los primeros recuerdos maravillosos como esposos
+                    </p>
+                </div>
+                
+                <div class="gift-card fade-in-up" style="animation-delay: 0.4s">
+                    <div class="gift-icon-box">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="gift-title">Lo Que Prefieras</h3>
+                    <p class="gift-description">
+                        Cualquier gesto de amor será recibido con inmensa gratitud y guardado en nuestros corazones para toda la eternidad
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mensaje Final -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="final-message fade-in-up">
+                <h2 class="final-title">Gracias Por Formar Parte<br>De Nuestra Historia de Amor</h2>
+                <div class="section-ornament">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <p class="final-text">
+                    Cada momento compartido contigo ha dejado una huella imborrable en nuestros corazones, y no podríamos imaginar celebrar este día sin ti a nuestro lado.
+                </p>
+                <p class="final-text">
+                    Anhelamos compartir risas, lágrimas de felicidad y crear recuerdos inolvidables juntos en el día más importante de nuestras vidas.
+                </p>
+                <p class="final-text" style="font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 4.5vw, 1.5rem); font-style: italic; color: var(--royal-gold);">
+                    Con todo nuestro amor, los esperamos
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-monogram">A&A</div>
+            <div class="footer-names">
+                Andreina <span class="footer-heart">♥</span> Arnel
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-date">
+                13 de Diciembre, 2024
+            </div>
+            <div class="footer-quote">
+                "El amor es paciente, es bondadoso. El amor todo lo disculpa,<br>todo lo cree, todo lo espera, todo lo soporta"
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== ANUNCIO MODAL =====
+        const announcementOverlay = document.getElementById('announcementOverlay');
+        const closeAnnouncement = document.getElementById('closeAnnouncement');
+
+        // Cerrar anuncio
+        function closeAnnouncementModal() {
+            announcementOverlay.classList.add('hidden');
+            vibrate(20);
+        }
+
+        closeAnnouncement.addEventListener('click', closeAnnouncementModal);
+
+        // Cerrar al hacer clic fuera de la imagen
+        announcementOverlay.addEventListener('click', (e) => {
+            if (e.target === announcementOverlay) {
+                closeAnnouncementModal();
+            }
+        });
+
+        // Cerrar con tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !announcementOverlay.classList.contains('hidden')) {
+                closeAnnouncementModal();
+            }
+        });
+
+        // ===== MÚSICA =====
+        const music = document.getElementById('backgroundMusic');
+        const preloader = document.getElementById('preloader');
+        let userInteracted = false;
+
+        music.volume = 0.4;
+
+        function playMusic() {
+            const playPromise = music.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Silenciar errores de reproducción
+                });
+            }
+        }
+
+        // Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                preloader.classList.add('fade-out');
+                setTimeout(() => playMusic(), 500);
+            }, 2000);
+        });
+
+        // Iniciar música con interacción
+        const startMusic = () => {
+            if (!userInteracted) {
+                userInteracted = true;
+                playMusic();
+            }
+        };
+
+        ['click', 'touchstart', 'scroll'].forEach(event => {
+            document.addEventListener(event, startMusic, { once: true, passive: true });
+        });
+
+        // Partículas
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Animaciones de scroll
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Parallax Hero
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const hero = document.querySelector('.hero');
+                    
+                    if (hero && scrolled < window.innerHeight) {
+                        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                        hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.6;
+                    }
+                    
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // Prevenir doble tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (event) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Vibración
+        function vibrate(duration = 15) {
+            if ('vibrate' in navigator) {
+                navigator.vibrate(duration);
+            }
+        }
+
+        document.querySelectorAll('.rsvp-button').forEach(btn => {
+            btn.addEventListener('click', () => vibrate(15));
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Prevenir gestos de zoom
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+        document.addEventListener('gesturechange', (e) => e.preventDefault());
+        document.addEventListener('gestureend', (e) => e.preventDefault());
+
+        // Console
+        console.log('%c💍 Andreina & Arnel 💍', 'font-size: 28px; color: #c9a054; font-weight: bold; text-shadow: 2px 2px 6px rgba(0,0,0,0.4);');
+        console.log('%c✨ Invitación de Boda Premium', 'font-size: 16px; color: #1a1a2e; font-weight: 600;');
+        console.log('%c💝 13 de Diciembre, 2024 • 7:00 PM', 'font-size: 14px; color: #6b2737; font-style: italic;');
+    </script>
+</body>
+</html>
